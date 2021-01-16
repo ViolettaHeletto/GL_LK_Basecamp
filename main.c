@@ -62,6 +62,23 @@ static void MX_SPI1_Init(void);
 void MX_USB_HOST_Process(void);
 
 /* USER CODE BEGIN PFP */
+typedef enum {
+	LED_GREEN = GPIO_PIN_12,
+	LED_RED = GPIO_PIN_14,
+	LED_Blue = GPIO_PIN_15,
+	LED_Orange = GPIO_PIN_13
+}leds_t;
+
+void LEDs_Turn_ON (leds_t LedColor){
+
+	HAL_GPIO_WritePin(GPIOD, LedColor, GPIO_PIN_SET);
+};
+
+void LEDs_Turn_OFF(leds_t LedColor){
+
+	HAL_GPIO_WritePin(GPIOD, LedColor, GPIO_PIN_RESET);
+}
+
 
 /* USER CODE END PFP */
 
