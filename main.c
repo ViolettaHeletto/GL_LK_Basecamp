@@ -132,6 +132,19 @@ int main(void)
     MX_USB_HOST_Process();
 
     /* USER CODE BEGIN 3 */
+    LEDs_Turn_ON(LED_GREEN);
+    HAL_Delay(250);
+    LEDs_Turn_OFF(LED_GREEN);
+    LEDs_Turn_ON(LED_Orange);
+    HAL_Delay(250);
+    LEDs_Turn_OFF(LED_Orange);
+    LEDs_Turn_ON(LED_RED);
+    HAL_Delay(250);
+    LEDs_Turn_OFF(LED_RED);
+    LEDs_Turn_ON(LED_Blue);
+    HAL_Delay(250);
+    LEDs_Turn_OFF(LED_Blue);
+
   }
   /* USER CODE END 3 */
 }
