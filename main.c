@@ -62,6 +62,7 @@ static void MX_SPI1_Init(void);
 void MX_USB_HOST_Process(void);
 
 /* USER CODE BEGIN PFP */
+#define COUNTER_PRESSED_VALUE  250
 typedef enum {
 	LED_GREEN = GPIO_PIN_12,
 	LED_RED = GPIO_PIN_14,
@@ -132,19 +133,40 @@ int main(void)
     MX_USB_HOST_Process();
 
     /* USER CODE BEGIN 3 */
-    LEDs_Turn_ON(LED_GREEN);
-    HAL_Delay(250);
-    LEDs_Turn_OFF(LED_GREEN);
-    LEDs_Turn_ON(LED_Orange);
-    HAL_Delay(250);
-    LEDs_Turn_OFF(LED_Orange);
-    LEDs_Turn_ON(LED_RED);
-    HAL_Delay(250);
-    LEDs_Turn_OFF(LED_RED);
-    LEDs_Turn_ON(LED_Blue);
-    HAL_Delay(250);
-    LEDs_Turn_OFF(LED_Blue);
+    uint8_t ButtonCounter = 0;
 
+    if (HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_0)==GPIO_PIN_SET){
+       ButtonCounter++;
+    }
+    else{
+    	ButtonCounter--;
+    }
+
+    if (ButtonCounter < COUNTER_PRESSED_VALUE) {
+    	HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_15);
+    	HAL_Delay(250);
+    	HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_14);
+    	HAL_Delay(250);
+    	HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_13);
+    	HAL_Delay(250);
+    	HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_12);
+    	HAL_Delay(250);
+
+    }
+            else {
+            	LEDs_Turn_ON(LED_GREEN);
+            	HAL_Delay(250);
+            	LEDs_Turn_OFF(LED_GREEN);
+            	LEDs_Turn_ON(LED_Orange);
+            	HAL_Delay(250);
+            	LEDs_Turn_OFF(LED_Orange);
+            	LEDs_Turn_ON(LED_RED);
+            	HAL_Delay(250);
+            	LEDs_Turn_OFF(LED_RED);
+            	LEDs_Turn_ON(LED_Blue);
+            	HAL_Delay(250);
+            	LEDs_Turn_OFF(LED_Blue);
+            }
   }
   /* USER CODE END 3 */
 }
@@ -354,11 +376,11 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Alternate = GPIO_AF5_SPI2;
   HAL_GPIO_Init(PDM_OUT_GPIO_Port, &GPIO_InitStruct);
 
-  /*Configure GPIO pin : B1_Pin */
-  GPIO_InitStruct.Pin = B1_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_EVT_RISING;
+  /*Configure GPIO pin : PA0 */
+  GPIO_InitStruct.Pin = GPIO_PIN_0;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
-  HAL_GPIO_Init(B1_GPIO_Port, &GPIO_InitStruct);
+  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
   /*Configure GPIO pin : BOOT1_Pin */
   GPIO_InitStruct.Pin = BOOT1_Pin;
